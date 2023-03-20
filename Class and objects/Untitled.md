@@ -172,9 +172,209 @@ and now we just need to check which service users want to use and after that ins
 
 
 
-may be we have more code here but we maintain our code and  one day if we want to ad another service we won't edit our  last code and just add another service and prevent duplicated code.
+may be we have more code here but we maintain our code and  one day if we want to add another service we won't edit our  last code and just add another service and prevent duplicated code.
 
 ---
 
+# Clean Class
 
+- should be small 
 
+  small and short and do one thing (one responsibility) .
+
+- should have single responsibility
+
+  - For Example: A product class is responsible for product
+
+  
+
+  ---
+
+  ### Cohesion
+
+  How much are your class methods using the class properties ? 
+
+  *MAX COHESION*
+
+  - all the methods each use all properties.
+  - A highly cohesive object 
+
+  *NO COHESION*
+
+  - All the methods don't use any properties	
+
+  **Your classes should have good cohesion some**
+
+  
+
+  ---
+
+  
+
+  	### law of Demeter
+
+  look at the code below : 
+
+  
+
+  ```python
+  self.customer.lastpurchase.date
+  ```
+
+  when we use this structure in our coding we move to deep in object so if we change our structure in 
+  `customer` class. our code will destruct.
+
+  
+
+  Code in a method may only access direct internals like : 
+
+  - the object it belongs to 
+  - object that are stored in properties of that object 
+  - objects which are received as method parameters
+  - objects which are  created in the method
+
+  
+
+  **How to solve**?
+
+  in here instead going deeper in object you can call a function to return data for example : 
+
+  ```python
+  self.customer.getLastPurchaseDate()
+  ```
+
+  
+
+  ---
+
+  ### Solid principles
+
+  - The single Responsibility Principle 
+
+    ​	class should have a single responsible 
+
+    ​	that means do a specific job that relates to the class.
+
+    for example : 
+
+    ```python
+    class User:
+        def login():
+            pass
+        def signUp():
+            pass
+    
+    class Report:
+        def report():
+            pass
+        def createReport():
+            pass
+    ```
+
+    we have 2 classes but User class here doesn't compatible with its methods.
+
+  - Open Close Principle
+
+    Class should open for extension but closed for modification.
+
+     for example : in the below code for adding functionality we need to add new method and that's not true.
+
+    ```typescript
+class Printer {
+        printPDF(data: any) {}
+        printWebDocument(data: any) {}
+        printPage(data: any) { }
+        verifyData(data: any) { }
+    }
+    
+    
+    ```
+    
+    ```typescript
+    interface Printer {
+      print(data: any);
+    }
+    
+    class PrinterImplementation {
+      verifyData(data: any) {}
+    }
+    
+    class WebPrinter extends PrinterImplementation implements Printer {
+  print(data: any) {
+        // print web document
+    }
+    }
+    
+    class PDFPrinter extends PrinterImplementation implements Printer {
+      print(data: any) {
+        // print PDF document
+      }
+    }
+    
+    class PagePrinter extends PrinterImplementation implements Printer {
+      print(data: any) {
+        // print real page
+      }
+    }
+    ```
+    
+    but in the above code you can extend your code Extend  Printer-Implementation and for adding new printer service no need to change your code and easy to add new service.
+    
+  - The liskov substitution Principle:
+  
+    Objects should be replaceable with instances of their subclass without altering the behavior.
+  
+    Example:
+  
+    ![Screenshot_20230319_173548](/home/amirhosien/Pictures/Screenshot_20230319_173548.png)
+  
+   
+  
+  ​		In here This principle says you must replace Eagle instead of Bird and your behavior is still remain.
+  
+  ​		but if we add `Penguin` class and extend from Bird, behavior won't work on it like here : 
+  
+  ​		![Screenshot_20230319_173939](/home/amirhosien/Pictures/Screenshot_20230319_173939.png)
+  
+  ​	
+  
+  ​	so this shows us we have wrong super class so we change our super class like the code : 
+  
+  ```typescript
+  
+  class Bird {}
+  
+  class FlyingBird extends Bird {
+    fly() {
+      console.log('Fyling...');
+    }
+  }
+  
+  class Eagle extends FlyingBird {
+    dive() {
+      console.log('Diving...');
+    }
+  }
+  
+  const eagle = new Eagle();
+  eagle.fly();
+  eagle.dive();
+  
+  class Penguin extends Bird {
+    // Problem: Can't fly!
+  }
+  ```
+  
+  
+
+- Interface segregation
+
+  Many client-specific interfaces are better than one general purpose interface.
+
+    **NOT MUCH IMPORTANT IN CLEAN CODE**
+
+- Dependency inversion 
+
+  You should depend on abstraction not concretions.
+
+   **NOT MUCH IMPORTANT IN CLEAN CODE**
